@@ -33,13 +33,13 @@ public:
 	T const& getAt(SkilListIterator<T> const& it) const;
 	T& getAt(SkilListIterator<T> const& it);
 
-	bool insertElem(SkilListIterator<T> const& it, T const& x);
+	bool insertElem(T const& x);
 	bool deleteElem(T& x);
 
 	//take pointer from the first to the second city -> this is skip field
-	void addInformafionInSkipField(const std::string arr, const SkipList<T> list);
+	void connect(const std::string arr, const SkipList<T> list);
 	// helper fuction for create "edge" between cities
-	SkipListNode<T>* search(std::string city, const SkipList<T> list);
+	SkipListNode<T>* indexOf(std::string city, const SkipList<T> list);
 	//creates a path from the available cities taking the shortest path with the most important ones 
 	void wayForAnyaAndVankata(const SkipList<T> list, const std::string importantCities);
 	//print final queue of cities 
