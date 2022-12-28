@@ -79,12 +79,10 @@ inline bool SkipList<T>::empty() const
 }
 
 template<typename T>
-inline bool SkipList<T>::insertElem(SkilListIterator<T> const& it, T const& x)
+inline bool SkipList<T>::insertElem(T const& x)
 {
 	if (empty())
 	{
-		assert(it == begin());
-
 		//insert at the beginning
 		SkipListNode<T>* newElem = new SkipListNode<T>{ x,nullptr,frontL };
 
@@ -93,22 +91,16 @@ inline bool SkipList<T>::insertElem(SkilListIterator<T> const& it, T const& x)
 
 		return true;
 	}
-	else if (it == end())
-	{
-		assert(!empty());
-
-		//insert at the end
-		SkipListNode<T>* newElem = new SkipListNode<T>{ x,nullptr,nullptr };
 	
+		//otherwise insert at the end
+		SkipListNode<T>* newElem = new SkipListNode<T>{ x,nullptr,nullptr };
+
 		endL->next = newElem;
 		endL = newElem;
 
 		return true;
-	}
-
-	return false;
+	
 }
-
 
 
 template<typename T>
@@ -136,23 +128,23 @@ inline bool SkipList<T>::deleteElem(T& x)
 }
 
 template<typename T>
-inline void SkipList<T>::addInformafionInSkipField(const std::string arr, const SkipList<T> list)
+inline void SkipList<T>::connect(const std::string arr, const SkipList<T> list)
 {
 	SkipListNode<T>* first;
 	std::string helper = arr[0];
 
 	// fined strat of the "edge" between cities
-	first = search(helper, list);
+	first = indexOf(helper, list);
 	//if search return invalid position nullptr assert catch the bug
 	assert(first!=nullptr);
 
 	// find end of the "edge" and realizes skip arrow between cities
-	first->skip = search(arr[1], list);
+	first->skip = indexOf(arr[1], list);
 	assert(first->skip != nullptr);
 }
 
 template<typename T>
-inline SkipListNode<T>* SkipList<T>::search(std::string city, const SkipList<T> list)
+inline SkipListNode<T>* SkipList<T>::indexOf(std::string city, const SkipList<T> list)
 {
 	SkipListNode<T>* elem;
 
