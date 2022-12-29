@@ -126,9 +126,9 @@ inline bool SkipList<T>::deleteElem(T& x)
 
 	return false;
 }
-
+/*
 template<typename T>
-inline void SkipList<T>::connect(const std::string arr, const SkipList<T> list)
+inline void SkipList<T>::connect(const std::string arr[2], const SkipList<T> list)
 {
 	SkipListNode<T>* first;
 	std::string helper = arr[0];
@@ -143,6 +143,8 @@ inline void SkipList<T>::connect(const std::string arr, const SkipList<T> list)
 	assert(first->skip != nullptr);
 }
 
+
+
 template<typename T>
 inline SkipListNode<T>* SkipList<T>::indexOf(std::string city, const SkipList<T> list)
 {
@@ -150,7 +152,7 @@ inline SkipListNode<T>* SkipList<T>::indexOf(std::string city, const SkipList<T>
 
 	while (!list.empty())
 	{
-		if (city == elem->getAt())
+		if (city == elem->data)
 		{
 			//when we find city return position
 			return elem; 
@@ -162,6 +164,45 @@ inline SkipListNode<T>* SkipList<T>::indexOf(std::string city, const SkipList<T>
 	//return nullptr for an invalid position 
 	return nullptr; 
 }
+*/
+
+template<typename T>
+inline void SkipList<T>::connect(int first, int second)
+{
+	SkipListNode<T>* pos1 = frontL;
+	SkipListNode<T>* pos2 = frontL;
+
+	while((int)pos1!=first)
+	{
+		pos1 = pos1->next;
+	}
+
+	for (int i = 0; i < second; i++)
+	{
+		pos2 = pos2->next;
+	}
+
+	pos1->skip = pos2;
+	
+}
+
+template <typename T>
+int SkipList<T>::indexOf(T& city)
+{
+	SkipListNode<T>* pos = frontL;
+
+	for(int i=0;pos!=NULL;i++)
+	{
+		if (city == pos->data)
+		{
+			return i;
+		}
+		pos = pos->next;
+	
+	}
+	return -1;
+}
+
 
 template<typename T>
 inline void SkipList<T>::wayForAnyaAndVankata(const SkipList<T> list, const std::string importantCities)
