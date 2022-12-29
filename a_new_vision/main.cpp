@@ -23,12 +23,31 @@ int main()
 		listWithCitys.insertElem(city);
 	}
 
-	
-	/*
 	std::cout << "Write how many direct links there are: ";
 	int maxDirectLinks;
 	std::cin >> maxDirectLinks;
 
+	int counter = 0;
+
+	std::cout << "Write direct links: ";
+
+	for (int i = 0; i < maxDirectLinks; i++)
+	{
+		if (counter < 2)
+		{
+			std::getline(std::cin, city);
+			int first = listWithCitys.indexOf(city);
+			std::getline(std::cin, city);
+			int second = listWithCitys.indexOf(city);
+
+			listWithCitys.connect(first, second);
+
+			counter = 0;
+		}
+		counter++;
+	}
+
+/*
 	std::vector<std::string> links;
 
 	std::cout << "Direct links: ";	
