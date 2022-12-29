@@ -37,9 +37,13 @@ public:
 	bool deleteElem(T& x);
 
 	//take pointer from the first to the second city -> this is skip field
-	void connect(const std::string arr, const SkipList<T> list);
+	//void connect(const std::string arr[2], const SkipList<T> list);
+	void connect(int first, int second);
+	
 	// helper fuction for create "edge" between cities
-	SkipListNode<T>* indexOf(std::string city, const SkipList<T> list);
+	//SkipListNode<T>* indexOf(std::string city, const SkipList<T> list);
+	int indexOf(T& city);
+	
 	//creates a path from the available cities taking the shortest path with the most important ones 
 	void wayForAnyaAndVankata(const SkipList<T> list, const std::string importantCities);
 	//print final queue of cities 
