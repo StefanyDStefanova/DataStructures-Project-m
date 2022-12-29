@@ -5,9 +5,19 @@
 template<typename T>
 inline void SkipList<T>::erase()
 {
-	T x;
 	while (!empty())
-		deleteElem(x);
+	{
+		SkipListNode<T>* deletedElem = frontL;
+		frontL = frontL->next;
+
+		if (endL == frontL)
+		{
+			// The last item in the list is deleted
+			frontL = endL = nullptr;
+		}
+
+		delete deletedElem;
+	}
 }
 
 template <typename T>
@@ -75,7 +85,7 @@ inline SkilListIterator<T> SkipList<T>::end() const
 template<typename T>
 inline bool SkipList<T>::empty() const
 {
-	return frontL == nullptr;
+	return frontL == nullptr && endL==nullptr;
 }
 
 template<typename T>
@@ -104,158 +114,112 @@ inline bool SkipList<T>::insertElem(T const& x)
 
 
 template<typename T>
-inline bool SkipList<T>::deleteElem(T& x)
+inline bool SkipList<T>::deleteQueue()
 {
-	SkilListIterator<T> it = begin();
-
-	if (!empty()) {
-		x = frontL->data;
-
-		SkipListNode<T>* deletedElem = frontL;
-		frontL = frontL->next;
-
-		if (endL == deletedElem)
-		{
-			// The last item in the list is deleted
-			endL = nullptr;
-		}
-
-		delete deletedElem;
-		return true;
-	}
-
-	return false;
-}
-/*
-template<typename T>
-inline void SkipList<T>::connect(const std::string arr[2], const SkipList<T> list)
-{
-	SkipListNode<T>* first;
-	std::string helper = arr[0];
-
-	// fined strat of the "edge" between cities
-	first = indexOf(helper, list);
-	//if search return invalid position nullptr assert catch the bug
-	assert(first!=nullptr);
-
-	// find end of the "edge" and realizes skip arrow between cities
-	first->skip = indexOf(arr[1], list);
-	assert(first->skip != nullptr);
-}
-
-
-
-template<typename T>
-inline SkipListNode<T>* SkipList<T>::indexOf(std::string city, const SkipList<T> list)
-{
-	SkipListNode<T>* elem;
-
-	while (!list.empty())
+	if (empty())
 	{
-		if (city == elem->data)
-		{
-			//when we find city return position
-			return elem; 
-		}
-		//next element in list
-		elem->next;
-
-	}
-	//return nullptr for an invalid position 
-	return nullptr; 
-}
-*/
-
-template<typename T>
-inline void SkipList<T>::connect(int first, int second)
-{
-	SkipListNode<T>* pos1 = frontL;
-	SkipListNode<T>* pos2 = frontL;
-
-	while((int)pos1!=first)
-	{
-		pos1 = pos1->next;
+		return false;
 	}
 
-	for (int i = 0; i < second; i++)
-	{
-		pos2 = pos2->next;
-	}
-
-	pos1->skip = pos2;
-	
+	erase();
+	return true;
 }
 
 template <typename T>
 int SkipList<T>::indexOf(T& city)
 {
-	SkipListNode<T>* pos = frontL;
+	SkipListNode<T>* current = frontL;
 
-	for(int i=0;pos!=NULL;i++)
+	for (int i = 0; current != NULL; i++)
 	{
-		if (city == pos->data)
+		if (city == current->data)
 		{
 			return i;
 		}
-		pos = pos->next;
-	
+		current = current->next;
 	}
 	return -1;
 }
 
-
-template<typename T>
-inline void SkipList<T>::wayForAnyaAndVankata(const SkipList<T> list, const std::string importantCities)
+template <typename T>
+SkipListNode<T>* SkipList<T>::getNodeAt(int index) 
 {
-	SkipListNode<T>* elem;
+	SkipListNode<T>* current = frontL;
+
+	while (current != NULL && index > 0) {
+		index = index - 1;
+		current = current->next;
+	}
+
+	return current;
+}
+
+template <typename T>
+bool SkipList<T>::connect(T& first, T& second)
+{
+	int positionFirst = indexOf(first);
+	int positionSecond = indexOf(second);
+
+	if (positionFirst < 0 || positionSecond < 0) {
+		return false;
+	}
+
+	getNodeAt(positionFirst)->skip = getNodeAt(positionSecond);
+
+	return true;
+}
+
+template <typename T>
+inline void SkipList<T>::wayForAnyaAndVankata(std::queue<T> importantCities)
+{
+	SkipListNode<T>* elemList = frontL;
 	std::queue<T> result;
-	int i = 0;
 
-	while (!list.empty())
+	result.push(elemList->data);
+	if (elemList->data == importantCities.front())
 	{
-		// ! da zapiswapyrwiq grad ot kojto trygwat nazawisimo dali e w spisyka
-		// da se oprawi
-
-		if (elem == list.frontL)
-		{
-			result.push(elem->data);
-		}
-
+		importantCities.pop();
+	}
+	
+	while (elemList!=NULL)
+	{
 		if (!importantCities.empty())
 		{
-			if (elem->data == importantCities[i])
+			if (elemList->data == importantCities.front())
 			{
-				result.push(elem->data);
-				elem->next;
-				i++;
+				result.push(elemList->data);
+				elemList=elemList->next;
+				importantCities.pop();
 			}
-			else if (elem->skip == importantCities[i])
+			else if (elemList->skip!=NULL && elemList->skip->data == importantCities.front())
 			{
-				result.push(elem->skip->data);
-				elem->skip;
-				i++;
+				result.push(elemList->skip->data);
+				elemList = elemList->skip;
+				importantCities.pop();				
 			}
-			else if (elem->next == importantCities[i])
+			else if (elemList->next->data == importantCities.front())
 			{
-				result.push(elem->next->data);
-				elem->next;
-				i++;
+				result.push(elemList->next->data);
+				elemList = elemList->next;
+				importantCities.pop();
 			}
 			else
 			{
-				result.push(elem->next->data);
-				elem->next;
+				result.push(elemList->next->data);
+				elemList = elemList->next;
 			}
 		}
 		else
 		{
-			result.push(elem->data);
-			elem->next;
+			result.push(elemList->data);
+			elemList = elemList->next;
 		}
-	}
 
+	}
+	
 	printQueue(result);
 }
+
 
 template<typename T>
 inline void SkipList<T>::printQueue(std::queue<T> q)
