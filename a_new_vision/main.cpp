@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <queue>
 #include <vector>
 #include "skip_list.h"
 #include "skip_list.cpp"
@@ -27,43 +28,36 @@ int main()
 	int maxDirectLinks;
 	std::cin >> maxDirectLinks;
 
-	int counter = 0;
-
-	std::cout << "Write direct links: ";
-
-	for (int i = 0; i < maxDirectLinks; i++)
+	if (maxDirectLinks > 0)
 	{
-		if (counter < 2)
+		std::cout << "Write direct links: ";
+		std::string city1, city2;
+
+		for (int i = 0; i < maxDirectLinks; i++)
 		{
-			std::getline(std::cin, city);
-			int first = listWithCitys.indexOf(city);
-			std::getline(std::cin, city);
-			int second = listWithCitys.indexOf(city);
+			std::cin >> city1 >> city2;
 
-			listWithCitys.connect(first, second);
-
-			counter = 0;
+			listWithCitys.connect(city1, city2);
 		}
-		counter++;
 	}
 
-/*
-	std::vector<std::string> links;
-
-	std::cout << "Direct links: ";	
-	for (int i = 0; i < maxDirectLinks; i++)
-	{
-		std::getline(std::cin, city);
-		links.push_back(city);
-	}
 
 	std::cout << "List of cities of Anya and Vankata: ";
-	std::string citiesOfAnyaAndVankata;
+	std::cout <<std::endl<< "*if you press sybol point you will stop typing."<<std::endl;
 
-	// da napylnim string s gradowete
-	std::getline(std::cin, citiesOfAnyaAndVankata);
+	std::queue<std::string> citiesOfAnyaAndVankata;
+	std::string line;
+
+	while (true)
+	{
+		std::cin >> line;
+		if (line == ".")
+			break;
+		citiesOfAnyaAndVankata.push(line);
+	}
 
 	// search way
-	// wayForAnyaAndVankata(listWithCitys,citiesOfAnyaAndVankata);*/
+	listWithCitys.wayForAnyaAndVankata(citiesOfAnyaAndVankata);
+
 	return 0;
 }
