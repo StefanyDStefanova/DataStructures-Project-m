@@ -181,7 +181,8 @@ inline void SkipList<T>::wayForAnyaAndVankata(std::queue<T> importantCities)
 		importantCities.pop();
 	}
 	
-	while (elemList!=NULL)
+	//while (elemList!=NULL)
+	for (int i = 0; elemList != NULL; i++)
 	{
 		if (!importantCities.empty())
 		{
@@ -209,7 +210,7 @@ inline void SkipList<T>::wayForAnyaAndVankata(std::queue<T> importantCities)
 				elemList = elemList->next;
 			}
 		}
-		else
+		else if(result.front() != elemList->data )
 		{
 			result.push(elemList->data);
 			elemList = elemList->next;
