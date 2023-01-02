@@ -85,7 +85,7 @@ inline SkilListIterator<T> SkipList<T>::end() const
 template<typename T>
 inline bool SkipList<T>::empty() const
 {
-	return frontL == nullptr && endL==nullptr;
+	return frontL == nullptr && endL == nullptr;
 }
 
 template<typename T>
@@ -101,15 +101,15 @@ inline bool SkipList<T>::insertElem(T const& x)
 
 		return true;
 	}
-	
-		//otherwise insert at the end
-		SkipListNode<T>* newElem = new SkipListNode<T>{ x,nullptr,nullptr };
 
-		endL->next = newElem;
-		endL = newElem;
+	//otherwise insert at the end
+	SkipListNode<T>* newElem = new SkipListNode<T>{ x,nullptr,nullptr };
 
-		return true;
-	
+	endL->next = newElem;
+	endL = newElem;
+
+	return true;
+
 }
 
 
@@ -142,7 +142,7 @@ int SkipList<T>::indexOf(T& city)
 }
 
 template <typename T>
-SkipListNode<T>* SkipList<T>::getNodeAt(int index) 
+SkipListNode<T>* SkipList<T>::getNodeAt(int index)
 {
 	SkipListNode<T>* current = frontL;
 
@@ -180,7 +180,7 @@ inline void SkipList<T>::wayForAnyaAndVankata(std::queue<T> importantCities)
 	{
 		importantCities.pop();
 	}
-	
+
 	//while (elemList!=NULL)
 	for (int i = 0; elemList != NULL; i++)
 	{
@@ -189,14 +189,14 @@ inline void SkipList<T>::wayForAnyaAndVankata(std::queue<T> importantCities)
 			if (elemList->data == importantCities.front())
 			{
 				result.push(elemList->data);
-				elemList=elemList->next;
+				elemList = elemList->next;
 				importantCities.pop();
 			}
-			else if (elemList->skip!=NULL && elemList->skip->data == importantCities.front())
+			else if (elemList->skip != NULL && elemList->skip->data == importantCities.front())
 			{
 				result.push(elemList->skip->data);
 				elemList = elemList->skip;
-				importantCities.pop();				
+				importantCities.pop();
 			}
 			else if (elemList->next->data == importantCities.front())
 			{
@@ -210,14 +210,23 @@ inline void SkipList<T>::wayForAnyaAndVankata(std::queue<T> importantCities)
 				elemList = elemList->next;
 			}
 		}
-		else if(result.front() != elemList->data )
+		//else if (result.front() != elemList->data)
+		else 
 		{
-			result.push(elemList->data);
-			elemList = elemList->next;
+			if (result.back() == elemList->data)
+			{
+				elemList = elemList->next;
+				continue;
+			}
+			else 
+			{
+				result.push(elemList->data);
+				elemList = elemList->next;
+			}
 		}
 
 	}
-	
+
 	printQueue(result);
 }
 
