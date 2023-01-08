@@ -1,20 +1,49 @@
-// mapGraph.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#ifndef __GRAPH_CPP
+#define __GRAPH_CPP
 
-#include <iostream>
+#include "mapGraph.h"
 
-int main()
+template<class WeightType, class VertexType>
+inline void Graph<WeightType, VertexType>::addVertex(const VertexType& v)
 {
-    std::cout << "Hello World!\n";
+    //vertix.insert(v);
+    vertix.emplace(v);
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+template<class WeightType, class VertexType>
+void Graph<WeightType, VertexType>::removeVertex(const VertexType& v)
+{
+    vertix.clear(v);
+    vertix.erase(v);
+}
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+template<class WeightType, class VertexType>
+void Graph<WeightType, VertexType>::addEdge(const VertexType& v1, const VertexType& v2, const WeightType& weight)
+{
+    vertix.insert(v1, std::make_pair(v2, weight));
+    vertix.insert(v2, std::make_pair(v1, weight));
+}
+
+template<class WeightType, class VertexType>
+void Graph<WeightType, VertexType>::removeEdge(const VertexType& v1, const VertexType& v2,const int weight)
+{
+    vertix.erase(vertix.find(v1, std::make_pair(v2, weight)));
+    vertix.erase(vertix.find(v2, std::make_pair(v1, weight)));
+}
+
+template<class WeightType, class VertexType>
+void Graph<WeightType, VertexType>::printOptimalPath(const vectorOfVisited& input)
+{
+    filter(input);
+
+    for (auto tmp:input)
+    {
+        std::cout << tmp << " ";
+    }
+}
+
+
+
+
+#endif // !_GRAPH_CPP
+
