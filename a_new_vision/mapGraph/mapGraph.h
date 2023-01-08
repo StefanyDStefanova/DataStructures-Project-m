@@ -30,7 +30,7 @@ public:
     //filter "RailwayStation"
     vectorOfVisited filter(vectorOfVisited& input);
 
-    void printOptimalPath(const queueOFVisited& input, int maxMin);
+    void printOptimalPath(const vectorOfVisited& input, int maxMin);
 };
 
 
