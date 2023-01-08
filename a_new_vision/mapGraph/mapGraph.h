@@ -11,26 +11,40 @@
 template <class WeightType = int, class VertexType = std::string>
 class Graph
 {
-    using vectorOfVisited = std::vector<std::pair<std::vector, WeightType>>;
     using EdgeType = std::pair<VertexType, WeightType> ;
 
     //       key,        <place,min>   
     std::map<VertexType, EdgeType> vertix;
 
+    using vectorOfVisited = std::vector<std::pair<std::vector, WeightType>>;
+
 public:
+
     void addVertex(const VertexType& v);
-    void deleteVertex(const VertexType& v);
+    void removeVertex(const VertexType& v);
 
     void addEdge(const VertexType& v1, const VertexType& v2, const WeightType& weight);
-    void removeEdge(const VertexType& v1, const VertexType& v2);
+    void removeEdge(const VertexType& v1, const VertexType& v2, const int weight);
 
     //crawling
     void viewPlace(Graph places);
 
-    //filter "RailwayStation"
-    vectorOfVisited filter(vectorOfVisited& input);
+    std::vector<VertexType> findMaxOptimalPaths(vectorOfVisited& input, int maxMin);
 
-    void printOptimalPath(const vectorOfVisited& input, int maxMin);
+    //filter "RailwayStation"
+    std::vector<VertexType> filter(std::vector<VertexType>& input)
+    {
+        std::vector<VertexType> result;
+
+        for(auto tmp:input)
+        {
+            if (tmp != "RailwayStation")
+                result.push_back(tmp);
+        }
+        return result;
+    }
+
+    void printOptimalPath(const vectorOfVisited& input);
 };
 
 
