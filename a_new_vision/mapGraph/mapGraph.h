@@ -11,7 +11,7 @@
 template <class WeightType = int, class VertexType = std::string>
 class Graph
 {
-    using queueOFVisited = std::vector<std::pair<std::vector, WeightType>>;
+    using vectorOfVisited = std::vector<std::pair<std::vector, WeightType>>;
     using EdgeType = std::pair<VertexType, WeightType> ;
 
     //       key,        <place,min>   
@@ -28,7 +28,7 @@ public:
     void viewPlace(Graph places);
 
     //filter "RailwayStation"
-    queueOFVisited filter(queueOFVisited& input);
+    vectorOfVisited filter(vectorOfVisited& input);
 
     void printOptimalPath(const queueOFVisited& input, int maxMin);
 };
