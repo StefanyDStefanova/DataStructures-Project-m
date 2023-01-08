@@ -16,7 +16,7 @@ class Graph
     //       key,        <place,min>   
     std::map<VertexType, EdgeType> vertix;
 
-    using vectorOfVisited = std::vector<std::pair<std::vector, WeightType>>;
+    using vectorOfVisited = std::vector<std::pair<std::vector<VertexType>, WeightType>>;
 
 public:
 
