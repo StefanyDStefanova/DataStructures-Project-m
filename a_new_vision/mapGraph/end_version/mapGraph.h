@@ -49,4 +49,3 @@ public:
 
 #include "mapGraph.cpp"
 #endif // !__MAP_GRAPH
-
