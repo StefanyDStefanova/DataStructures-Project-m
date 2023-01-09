@@ -1,51 +1,23 @@
-#ifndef __MAP_GRAPH
-#define __MAP_GRAPH
-
 #include <iostream>
-#include <map>
-#include <utility>
-#include <string>
-#include <vector>
+#include <stdexcept>
 
+#include "mapGraph.h"
 
-template <class WeightType = int, class VertexType = std::string>
-class Graph
+int main()
 {
-    using EdgeType = std::pair<VertexType, WeightType> ;
+	std::ifstream in("GraphCityMap.txt", std::ios::in);
 
-    //       key,        vector:   <place,min>   
-    std::map<VertexType, std::vector<EdgeType>> vertix;
+	if (!in.is_open())
+	{
+		std::cout << "File cannot be opened!" << std::endl;
+		return -1;
+	}
 
-    using vectorOfVisited = std::vector<std::pair<std::vector<VertexType>, WeightType>>;
+	Graph<int, std::string> g;
+	g=g.createMap("GraphCityMap.txt");
 
-public:
+	
+	in.close();
 
-    void addVertex(const VertexType& v);
-
-    void addEdge(const VertexType& v1, const VertexType& v2, const WeightType& weight);
-
-    //crawling
-    void viewPlace(Graph places);
-
-    std::vector<VertexType> findMaxOptimalPaths(vectorOfVisited& input, int maxMin);
-
-    //filter "RailwayStation"
-    std::vector<VertexType> filter(std::vector<VertexType>& input)
-    {
-        std::vector<VertexType> result;
-
-        for(auto tmp:input)
-        {
-            if (tmp != "RailwayStation")
-                result.push_back(tmp);
-        }
-        return result;
-    }
-
-    Graph<WeightType,VertexType> createMap(const std::string& fileName);
-
-    void printOptimalPath(const std::vector<VertexType>& input);
-};
-
-#include "mapGraph.cpp"
-#endif // !__MAP_GRAPH
+	return 0;
+}
